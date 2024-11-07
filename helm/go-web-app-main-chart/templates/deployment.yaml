@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-web-app-main
+  labels:
+    app: go-web-app-main
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-web-app-main
+  template:
+    metadata:
+      labels:
+        app: go-web-app-main  # must be the same with the selector of the service cos k8s service discovery happens through labels and selectors
+    spec:
+      containers:
+        - name: go-web-app-main
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          ports:
+            - containerPort: 8080
